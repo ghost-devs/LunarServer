@@ -18,6 +18,10 @@ namespace LunarLabs.WebServer.Core
         public int MaxPostSizeInBytes;
         public int MaxWebsocketFrameInBytes;
         public int CacheResponseTime;
+        public bool EnableSsl;
+        public string SslCertificatePath;
+        public string SslCertificatePassword;
+        public bool AllowSelfSignedCertificates;
 
         public static ServerSettings DefaultSettings()
         {
@@ -32,7 +36,11 @@ namespace LunarLabs.WebServer.Core
                 MaxPostSizeInBytes = 1024 * 1024 * 8,
                 MaxWebsocketFrameInBytes = 1024 * 8,
                 CacheResponseTime = -1,
-                Environment = ServerEnvironment.Dev
+                Environment = ServerEnvironment.Dev,
+                EnableSsl = false,
+                SslCertificatePath = "",
+                SslCertificatePassword = "",
+                AllowSelfSignedCertificates = false
             };
         }
 

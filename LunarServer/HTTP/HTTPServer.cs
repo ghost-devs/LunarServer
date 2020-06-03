@@ -12,6 +12,9 @@ using System.Security.Cryptography;
 using System.Linq;
 using LunarLabs.WebSockets;
 using System.Threading;
+using System.Net.Security;
+using System.Security.Authentication;
+using System.Security.Cryptography.X509Certificates;
 
 namespace LunarLabs.WebServer.HTTP
 {
@@ -224,12 +227,22 @@ namespace LunarLabs.WebServer.HTTP
 
                 int requestCount = 0;
 
-                using (var stream = new NetworkStream(client))
+                using (var networkStream = new NetworkStream(client))
                 {
-                    using (var reader = new BinaryReader(stream))
+                    using (Stream stream = Settings.EnableSsl ? (Stream)new SslStream(networkStream, false,
+                        Settings.AllowSelfSignedCertificates ? new RemoteCertificateValidationCallback((object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors) => { return true; }) : null,
+                        null) : networkStream)
                     {
-                        using (var writer = new BinaryWriter(stream))
+                        if (Settings.EnableSsl)
                         {
+                            var certificate = new X509Certificate2(Settings.SslCertificatePath, Settings.SslCertificatePassword);
+                                
+                            ((SslStream)stream).AuthenticateAsServer(certificate, true, SslProtocols.Default, true);
+                        }
+
+                        using (var reader = new BinaryReader(stream))
+                        {
+                            using (var writer = new BinaryWriter(stream))
                             {
                                 do
                                 {
