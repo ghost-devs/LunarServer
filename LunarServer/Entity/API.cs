@@ -69,7 +69,7 @@ namespace LunarLabs.WebServer.Entity
             var content = DataFormats.SaveToString(format, result);
             response.bytes = System.Text.Encoding.UTF8.GetBytes(content);
 
-            response.headers["Content-Type"] = mimeType;
+            response.headers["Content-Type"] = mimeType + "; charset=UTF-8";
 
             return response;
             

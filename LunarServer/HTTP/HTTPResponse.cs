@@ -95,7 +95,7 @@ Vary: Accept-Encoding, Cookie, User-Agent
             var result = new HTTPResponse();
             result.code = code;
             result.bytes = bytes;
-            result.headers["Content-Type"] = contentType;
+            result.headers["Content-Type"] = contentType + "; charset=UTF-8";
 
             if (compress)
             {
@@ -111,7 +111,7 @@ Vary: Accept-Encoding, Cookie, User-Agent
             result.code = HTTPCode.OK;
             result.bytes = bytes;
 
-            result.headers["Content-Type"] = contentType;
+            result.headers["Content-Type"] = contentType + "; charset=UTF-8";
 
             return result;
         }
