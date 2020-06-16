@@ -237,7 +237,7 @@ namespace LunarLabs.WebServer.HTTP
                         {
                             var certificate = new X509Certificate2(Settings.SslCertificatePath, Settings.SslCertificatePassword);
                                 
-                            ((SslStream)stream).AuthenticateAsServer(certificate, true, SslProtocols.Tls12, true);
+                            ((SslStream)stream).AuthenticateAsServer(certificate, false, SslProtocols.Tls12, true);
                         }
 
                         using (var reader = new BinaryReader(stream))
